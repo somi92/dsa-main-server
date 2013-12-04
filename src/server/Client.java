@@ -76,7 +76,7 @@ public class Client {
 	}
 	
 	public String toString() {
-		return getIpAddress().toString()+":"+getPort()+";";
+		return getIpAddress().toString()+":"+getPort();
 	}
 	
 }

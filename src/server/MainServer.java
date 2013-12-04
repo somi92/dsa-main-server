@@ -25,59 +25,6 @@ public class MainServer {
 		System.out.println('\n');
 	}
 	
-//	public static String findTwoRandomClients(Client client) {
-////		Client c = new Client("", 0, services, "");
-//		int found = 0;
-//		String response = "";
-//		if(clients.contains(client)) {
-//			for (int i = 0; i < clients.size(); i++) {
-//				if(found==2) {
-//					break;
-//				}
-//				if(clients.get(i).equals(client) && !clients.get(i).toString().equals(client.toString())  ) {
-//					found++;
-//					response = response+clients.get(i).toString();
-//				}
-//			}
-////			return "";
-//			return response;
-//		} else {
-//			return "NOT_FOUND"+'\n';
-//		}
-//	}
-
-//	public static String findTwoRandomClients(String client, String request) {
-//		int d = 0;
-//		int u = clients.size();
-//		int found = 0;
-//		int counter = 1;
-//		int[] visited = new int[u+1];
-//		visited[0] = -1;
-//		String response = "";
-//		Random r = new Random();
-////		int rnd = r.nextInt(u-d) + d;
-//		while(found<=2) {
-//			int rnd = r.nextInt(u-d) + d;
-//			if(!clients.get(rnd).toString().equals(client) && clients.get(rnd).getServices().contains(request) && !isVisited(visited, rnd)) {
-//				found++;
-//				response = response + clients.get(rnd).toString();
-//			}
-//			if(!isVisited(visited, rnd)) {
-//				visited[counter++] = rnd;
-//			}
-//		}
-//		return response;
-//	}
-//	
-//	private static boolean isVisited(int[] visited, int n) {
-//		for(int i=0; i<visited.length; i++) {
-//			if(visited[i]==n) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-	
 	public static String findTwoRandomClients(String client, String request) {
 		int l = 0;
 		int u = clients.size();
@@ -104,6 +51,9 @@ public class MainServer {
 			if(found==2) {
 				break;
 			}
+		}
+		if(found==0) {
+			return "NOT_FOUND";
 		}
 		return response;
 	}

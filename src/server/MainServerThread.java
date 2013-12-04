@@ -37,27 +37,16 @@ public class MainServerThread implements Runnable {
 				
 				DSPMainServer protocol = new DSPMainServer();
 				String clientMessage = inputStream.readLine();
-//				System.out.println(clientMessage);
 				if(clientMessage == null) {
 					continue;
 				}
-				System.out.println("Primljena poruka od klijenta"+client.toString()+" (vreme "+(new GregorianCalendar()).getTime()+"): "+clientMessage);
+				System.out.println("Primljena poruka od klijenta "+client.toString()+" (vreme "+(new GregorianCalendar()).getTime()+"): "+clientMessage);
 				int responseCode = protocol.parseProtocolMessage(clientMessage);
 				response = "";
-				
-//				if(responseCode == DSPMainServer.PEERS) {
-//					services = MainServer.findTwoRandomClient(protocol.getRequests());
-//					response = protocol.generateResponse(services); 
-//				} else if(responseCode == DSPMainServer.ACCEPTED) {
-//					Client client = new Client(communicationSocket.getInetAddress().toString(), communicationSocket.getPort(), protocol.getServices());
-//					MainServer.addNewClient(client);
-//					response = protocol.generateResponse();
-//				}
 				
 				switch(responseCode) {
 				
 					case DSPMainServer.ACCEPTED: {
-//						Client client = new Client(communicationSocket.getInetAddress().toString(), communicationSocket.getPort(), protocol.getServices());
 						client.setServices(protocol.getServices());
 						MainServer.addNewClient(client);
 						response = protocol.generateResponse();
