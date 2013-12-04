@@ -7,6 +7,10 @@ public class Client {
 	private String services;
 	private String data;
 	
+	public Client(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+	
 	public Client(String ipAddress, int port) {
 		this.ipAddress = ipAddress;
 		this.port = port;
@@ -57,24 +61,43 @@ public class Client {
 		this.data = data;
 	}
 
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		Client client = (Client) obj;
+//		if (services == null) {
+//			if (client.services != null)
+//				return false;
+//		} else if (!services.contains(client.getServices())) {
+//			return false;
+//		}
+//		return true;
+//	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Client))
 			return false;
-		Client client = (Client) obj;
-		if (services == null) {
-			if (client.services != null)
+		Client other = (Client) obj;
+		if (ipAddress == null) {
+			if (other.ipAddress != null)
 				return false;
-		} else if (!services.contains(client.getServices())) {
+		} else if (!ipAddress.equals(other.ipAddress))
 			return false;
-		}
+		if (port != other.port)
+			return false;
 		return true;
 	}
-	
+
 	public String toString() {
 		return getIpAddress().toString()+":"+getPort();
 	}

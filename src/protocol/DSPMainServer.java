@@ -11,6 +11,7 @@ public class DSPMainServer implements DistributedSortingProtocol {
 	public static final int DISCONNECT = 6;
 	
 	private int state;
+	private int port;
 	private String services;
 	private String requests;
 	
@@ -27,6 +28,14 @@ public class DSPMainServer implements DistributedSortingProtocol {
 		this.state = state;
 	}
 
+	public int getPort() {
+		return port;
+	}
+	
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
 	public String getServices() {
 		return services;
 	}
@@ -48,18 +57,31 @@ public class DSPMainServer implements DistributedSortingProtocol {
 		// TODO Auto-generated method stub
 		
 		String[] messageParts = message.split(" ");
-		String pMethod;
-		String pOptions;
+		String pMethod = "";
+		String pOptions = "";
+		String pPort = "";
 		
-		if(messageParts.length == 1) {
-			pMethod = messageParts[0];
-			pOptions = "";
-		} else if(messageParts.length == 2) {
-			pMethod = messageParts[0];
-			pOptions = messageParts[1];
+		if(messageParts.length>0 && messageParts.length<4) {
+			
+			if(messageParts.length == 1) {
+				pMethod = messageParts[0];
+				pOptions = "";
+				pPort = "";
+			}
+			if(messageParts.length == 2) {
+				pMethod = messageParts[0];
+				pOptions = messageParts[1];
+				pPort = "";
+			}
+			if(messageParts.length == 3) {
+				pMethod = messageParts[0];
+				pOptions = messageParts[1];
+				pPort = messageParts[2];
+			}
+			
 		} else {
-			pMethod = "";
-			pOptions = "";
+//			pMethod = "";
+//			pOptions = "";
 			setState(ERROR);
 			return getState();
 		}
@@ -68,12 +90,15 @@ public class DSPMainServer implements DistributedSortingProtocol {
 			
 			case "HELLO": {
 				
-				if(pOptions.equals("B") || pOptions.equals("S") || pOptions.equals("I") || pOptions.equals("BS") ||
-						pOptions.equals("BI") || pOptions.equals("SI") || pOptions.equals("BSI")) {
+				if((pOptions.equals("B") || pOptions.equals("S") || pOptions.equals("I") || pOptions.equals("BS") ||
+						pOptions.equals("BI") || pOptions.equals("SI") || pOptions.equals("BSI")) && isInteger(pPort)) {
 					setServices(pOptions);
+					int port = Integer.parseInt(pPort);
+					setPort(port);
 					setState(DSPMainServer.ACCEPTED);
 				} else {
 					setServices("");
+//					setPort(-1);
 					setState(DSPMainServer.ERROR);
 				}
 			}
@@ -130,9 +155,6 @@ public class DSPMainServer implements DistributedSortingProtocol {
 		if(getState() == DSPMainServer.DISCONNECT) {
 			response = "BYE";
 		}
-//		if(getState() == DSPMainServer.DISCONNECT) {
-//			response = "";
-//		}
 		
 		return response+'\n';
 	}
@@ -150,6 +172,17 @@ public class DSPMainServer implements DistributedSortingProtocol {
 		}
 		
 		return response+'\n';
+	}
+	
+	private boolean isInteger(String s) {
+		try {
+			@SuppressWarnings("unused")
+			int i = Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			// TODO: handle exception
+			return false;
+		}
+		return true;
 	}
 
 }

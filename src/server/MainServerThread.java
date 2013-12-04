@@ -23,12 +23,11 @@ public class MainServerThread implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("Uspostavljena veza za klijentom "+this.communicationSocket.getInetAddress()+":"+this.communicationSocket.getPort()+
-					", vreme"+(new GregorianCalendar()).getTime());
+			System.out.println("(vreme: "+(new GregorianCalendar()).getTime()+") "+"Uspostavljena veza za klijentom "+this.communicationSocket.getInetAddress()+" na portu "+this.communicationSocket.getPort());
 			String services;
 			String response;
 			
-			Client client = new Client(communicationSocket.getInetAddress().toString(), communicationSocket.getPort());
+			Client client = new Client(communicationSocket.getInetAddress().toString());
 			
 			BufferedReader inputStream = new BufferedReader(new InputStreamReader(communicationSocket.getInputStream()));
 			DataOutputStream outputStream = new DataOutputStream(this.communicationSocket.getOutputStream());
@@ -40,13 +39,14 @@ public class MainServerThread implements Runnable {
 				if(clientMessage == null) {
 					continue;
 				}
-				System.out.println("Primljena poruka od klijenta "+client.toString()+" (vreme "+(new GregorianCalendar()).getTime()+"): "+clientMessage);
+				System.out.println("(vreme: "+(new GregorianCalendar()).getTime()+") "+"Primljena poruka od klijenta "+client.getIpAddress()+" na portu "+communicationSocket.getPort()+": "+clientMessage);
 				int responseCode = protocol.parseProtocolMessage(clientMessage);
 				response = "";
 				
 				switch(responseCode) {
 				
 					case DSPMainServer.ACCEPTED: {
+						client.setPort(protocol.getPort());
 						client.setServices(protocol.getServices());
 						MainServer.addNewClient(client);
 						response = protocol.generateResponse();
@@ -60,7 +60,7 @@ public class MainServerThread implements Runnable {
 					break;
 					
 					case DSPMainServer.FINISHED: {
-						System.out.println("Klijent "+client.toString()+" je uspesno zavrsio sortiranje.");
+						System.out.println("(vreme: "+(new GregorianCalendar()).getTime()+") "+"Klijent "+client.getIpAddress()+" na portu "+communicationSocket.getPort()+" je uspesno zavrsio sortiranje");
 						response = protocol.generateResponse();
 					}
 					break;
@@ -85,7 +85,7 @@ public class MainServerThread implements Runnable {
 				}
 				
 				outputStream.writeBytes(response);
-				System.out.println("Poslat odgovor klijentu "+client.toString()+": "+response);
+				System.out.println("(vreme: "+(new GregorianCalendar()).getTime()+") "+"Poslat odgovor klijentu "+client.getIpAddress()+" na portu "+communicationSocket.getPort()+" : "+response);
 				
 			}
 			this.communicationSocket.close();
