@@ -26,16 +26,19 @@ public class MainServerThread implements Runnable {
 			System.out.println("(vreme: "+(new GregorianCalendar()).getTime()+") "+"Uspostavljena veza za klijentom "+this.communicationSocket.getInetAddress()+" na portu "+this.communicationSocket.getPort());
 			String services;
 			String response;
+			String clientMessage;
 			
 			Client client = new Client(communicationSocket.getInetAddress().toString());
+			DSPMainServer protocol = new DSPMainServer();
 			
 			BufferedReader inputStream = new BufferedReader(new InputStreamReader(communicationSocket.getInputStream()));
 			DataOutputStream outputStream = new DataOutputStream(this.communicationSocket.getOutputStream());
 			
 			while(!this.connectionTerminated) {
 				
-				DSPMainServer protocol = new DSPMainServer();
-				String clientMessage = inputStream.readLine();
+//				DSPMainServer protocol = new DSPMainServer();
+				clientMessage = inputStream.readLine();
+				
 				if(clientMessage == null) {
 					continue;
 				}
