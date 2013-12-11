@@ -39,9 +39,9 @@ public class MainServerThread implements Runnable {
 //				DSPMainServer protocol = new DSPMainServer();
 				clientMessage = inputStream.readLine();
 				
-				if(clientMessage == null) {
-					continue;
-				}
+//				if(clientMessage == null) {
+//					continue;
+//				}
 				System.out.println("(vreme: "+(new GregorianCalendar()).getTime()+") "+"Primljena poruka od klijenta "+client.getIpAddress()+" na portu "+communicationSocket.getPort()+": "+clientMessage);
 				int responseCode = protocol.parseProtocolMessage(clientMessage);
 				response = "";
@@ -91,6 +91,8 @@ public class MainServerThread implements Runnable {
 				System.out.println("(vreme: "+(new GregorianCalendar()).getTime()+") "+"Poslat odgovor klijentu "+client.getIpAddress()+" na portu "+communicationSocket.getPort()+" : "+response);
 				
 			}
+			inputStream.close();
+			outputStream.close();
 			this.communicationSocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
