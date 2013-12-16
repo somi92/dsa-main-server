@@ -58,7 +58,12 @@ public class MainServerThread implements Runnable {
 					
 					case DSPMainServer.PEERS: {
 						services = MainServer.findTwoRandomClients(client.toString(), protocol.getRequests());
-						response = protocol.generateResponse(services); 
+						if(services.equals("NOT_FOUND")) {
+							protocol.setState(DSPMainServer.NOT_FOUND);
+							response = protocol.generateResponse();
+						} else {
+							response = protocol.generateResponse(services);
+						} 
 					}
 					break;
 					
