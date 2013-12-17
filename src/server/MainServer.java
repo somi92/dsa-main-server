@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainServer {
 
@@ -11,18 +13,18 @@ public class MainServer {
 	
 	public static void addNewClient(Client client) {
 		clients.add(client);
-		for(int i=0; i<clients.size(); i++) {
-			System.out.println(clients.get(i).toString()+"-"+clients.get(i).getServices());
-		}
-		System.out.println('\n');
+//		for(int i=0; i<clients.size(); i++) {
+//			System.out.println(clients.get(i).toString()+"-"+clients.get(i).getServices());
+//		}
+//		System.out.println('\n');
 	}
 	
 	public static void removeClient(Client client) {
 		clients.remove(client);
-		for(int i=0; i<clients.size(); i++) {
-			System.out.println(clients.get(i).toString()+"-"+clients.get(i).getServices());
-		}
-		System.out.println('\n');
+//		for(int i=0; i<clients.size(); i++) {
+//			System.out.println(clients.get(i).toString()+"-"+clients.get(i).getServices());
+//		}
+//		System.out.println('\n');
 	}
 	
 	public static String findTwoRandomClients(String client, String request) {
@@ -66,6 +68,8 @@ public class MainServer {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		ExecutorService mainServerExecutor = Executors.newCachedThreadPool();
+		
 		ServerSocket mainServer;
 		int port = 8090;
 		
@@ -73,7 +77,8 @@ public class MainServer {
 			mainServer = new ServerSocket(port);
 			System.out.println("Server osluskuje na portu "+port+"...");
 			while(true) {
-				new Thread(new MainServerThread(mainServer.accept())).start();
+//				new Thread(new MainServerThread(mainServer.accept())).start();
+				mainServerExecutor.execute(new MainServerThread(mainServer.accept()));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

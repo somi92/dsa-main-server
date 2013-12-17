@@ -1,6 +1,6 @@
 package protocol;
 
-public class DSPMainServer implements DistributedSortingProtocol {
+public class DSPMainServer {
 	
 	public static final int WAITING = 0;
 	public static final int ACCEPTED = 1;
@@ -52,7 +52,6 @@ public class DSPMainServer implements DistributedSortingProtocol {
 		this.requests = requests;
 	}
 
-	@Override
 	public int parseProtocolMessage(String message) {
 		// TODO Auto-generated method stub
 		
@@ -135,7 +134,6 @@ public class DSPMainServer implements DistributedSortingProtocol {
 		return getState();
 	}
 
-	@Override
 	public String generateResponse() {
 		// TODO Auto-generated method stub
 		String response = new String();

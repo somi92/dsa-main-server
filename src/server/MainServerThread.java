@@ -36,12 +36,8 @@ public class MainServerThread implements Runnable {
 			
 			while(!this.connectionTerminated) {
 				
-//				DSPMainServer protocol = new DSPMainServer();
 				clientMessage = inputStream.readLine();
 				
-//				if(clientMessage == null) {
-//					continue;
-//				}
 				System.out.println("(vreme: "+(new GregorianCalendar()).getTime()+") "+"Primljena poruka od klijenta "+client.getIpAddress()+" na portu "+communicationSocket.getPort()+": "+clientMessage);
 				int responseCode = protocol.parseProtocolMessage(clientMessage);
 				response = "";

@@ -16,6 +16,7 @@ public class Test {
 		// TODO Auto-generated method stub
 		
 		try {
+			@SuppressWarnings("resource")
 			Socket s = new Socket("localhost", 8090);
 			
 			BufferedReader c = new BufferedReader(new InputStreamReader(System.in));
