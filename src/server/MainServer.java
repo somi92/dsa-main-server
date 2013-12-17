@@ -46,7 +46,7 @@ public class MainServer {
 			}
 			
 			visited[i+1] = rnd;
-			if(!clients.get(rnd).toString().equals(client) && clients.get(rnd).getServices().contains(request)) {
+			if(/*!clients.get(rnd).toString().equals(client) &&*/ clients.get(rnd).getServices().contains(request)) {
 				response = response + clients.get(rnd).toString();
 				found++;
 			}
